@@ -1,7 +1,13 @@
 "use server";
 
-import { CreatePostRequest, PostItem } from "@/types/post";
+import {
+  CreatePostRequest,
+  PostItem,
+  PostsRequest,
+  PostsResponse,
+} from "@/types/post";
 import { authFetcher } from "./authApi";
+import { buildQuery } from "./buildQuery";
 
 export async function getPostDetail(id: string) {
   return authFetcher<PostItem>(`posts/${id}`);
@@ -23,4 +29,9 @@ export async function deletePost(id: string) {
   return authFetcher<PostItem>(`posts/${id}`, {
     method: "DELETE",
   });
+}
+
+export async function getPosts(params: PostsRequest) {
+  const searchParams = buildQuery(params);
+  return authFetcher<PostsResponse>(`posts?${searchParams}`, {});
 }

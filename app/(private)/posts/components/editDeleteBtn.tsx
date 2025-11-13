@@ -1,18 +1,19 @@
 "use client";
 
-import { deletePost } from "@/app/api/lib/serverAPI";
 import { Button } from "@/components/ui/button";
+import { usePostMutation } from "@/hooks/useCreatePost";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 export default function EditDeleteButton({ id }: { id: string }) {
   const router = useRouter();
+  const { remove } = usePostMutation(id);
 
   async function deleteHandler() {
     const answer = confirm("진짜 삭제함?");
     if (answer) {
       console.log("on delete clicked");
-      await deletePost(id);
+      await remove.mutateAsync();
       router.replace("/posts");
     }
   }

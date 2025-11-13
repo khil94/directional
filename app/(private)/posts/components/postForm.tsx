@@ -1,6 +1,5 @@
 "use client";
 
-import { createPost, patchPost } from "@/app/api/lib/serverAPI";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -9,6 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
+import { usePostMutation } from "@/hooks/useCreatePost";
 import { BanWordChecker } from "@/lib/banChecker";
 import { Category, CATEGORY_LIST, CreatePostRequest } from "@/types/post";
 import { ChevronDown } from "lucide-react";
@@ -28,6 +28,7 @@ interface props {
 }
 
 export default function PostForm({ mode, initialData }: props) {
+  const { create, update } = usePostMutation(mode?.id);
   const [title, setTitle] = useState(initialData?.title ?? "");
   const [body, setBody] = useState(initialData?.body ?? "");
   const [tags, setTags] = useState<string[]>(initialData?.tags ?? []);
@@ -49,7 +50,7 @@ export default function PostForm({ mode, initialData }: props) {
     const answer = confirm("수정하시겠습니까");
     if (answer) {
       console.log("test", mode?.id);
-      await patchPost(mode!.id, {
+      await update.mutateAsync({
         title,
         body,
         category,
@@ -66,7 +67,7 @@ export default function PostForm({ mode, initialData }: props) {
     }
     const answer = confirm("작성하시겠습니까?");
     if (answer) {
-      await createPost({
+      await create.mutateAsync({
         title,
         body,
         category,
