@@ -20,4 +20,7 @@ export const API = {
   async getMockPosts() {
     return CommonApi<PostsResponse>(`/api/mock`);
   },
+  async postLogout() {
+    return CommonApi("/api/logout", { method: "POST" });
+  },
 };
