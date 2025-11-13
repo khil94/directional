@@ -32,7 +32,7 @@ export default function LoginPage() {
       userStore.login(resp);
       authStore.login();
 
-      router.push("/board");
+      router.push("/posts");
     } catch (err) {
       setError(true);
     } finally {
