@@ -5,7 +5,7 @@ export interface CoffeeDataPoint {
 }
 
 export interface CoffeeTeam {
-  team: string[];
+  team: string;
   series: CoffeeDataPoint[];
 }
 
