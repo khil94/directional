@@ -1,11 +1,11 @@
 export default function Header() {
   return (
-    <head>
+    <header>
       <nav>
         <ul>
           <li></li>
         </ul>
       </nav>
-    </head>
+    </header>
   );
 }

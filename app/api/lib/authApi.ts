@@ -1,28 +1,42 @@
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
+import { fetcher } from "./fetcher";
 
-export async function AuthApi<T>(
-  input: string | URL | Request,
-  init?: RequestInit
-): Promise<T> {
+export async function getTokenHeader<T>(): Promise<Record<string, string>> {
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value;
 
   if (!token) {
     throw new Error("인증 필요 (토큰 없음)");
   }
-  const res = await fetch(input, {
+
+  return {
+    Authorization: `Bearer ${token}`,
+  };
+}
+
+export async function authFetcher<T>(
+  path: string,
+  init?: RequestInit
+): Promise<T> {
+  const token = (await cookies()).get("token")?.value;
+
+  const res = await fetcher(path, {
     ...init,
     headers: {
-      Authorization: `Bearer ${token}`,
+      ...(init?.headers || {}),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      "Content-Type": "application/json",
     },
+    cache: "no-store",
   });
 
   if (!res.ok) {
     if (res.status === 404) {
       notFound();
     }
-    throw new Error(`API ERROR by common api : ${res.status}`);
+    console.log(res);
+    throw new Error("server fetcher error");
   }
 
   return res.json();

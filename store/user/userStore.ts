@@ -1,7 +1,9 @@
 import { User } from "@/types/auth";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { useAuthStore } from "../auth/authStore";
 
+export const USER_STORE_KEY = "directional-user";
 export interface UserState {
   user: User | null;
 }
@@ -17,15 +19,22 @@ const initState: UserState = {
   user: null,
 };
 
-export const useUserStore = create<UserStoreState>((set, get) => ({
-  ...initState,
-  login: (data) => {
-    set({ user: data });
-  },
-  logout: () => {
-    set({ user: null });
-  },
-}));
+export const useUserStore = create(
+  persist<UserStoreState>(
+    (set, get) => ({
+      ...initState,
+      login: (data) => {
+        set({ user: data });
+      },
+      logout: () => {
+        set({ user: null });
+      },
+    }),
+    {
+      name: USER_STORE_KEY,
+    }
+  )
+);
 
 useAuthStore.subscribe(
   (state) => state.isAuth,
