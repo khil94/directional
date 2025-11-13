@@ -44,3 +44,10 @@ export const POSTS_REQUEST_ERROR: Record<number, string> = {
   400: "Invalid Query",
   401: "Unauthorized",
 };
+
+export interface CreatePostRequest {
+  title: string;
+  body: string;
+  category: Category;
+  tags?: string[];
+}
