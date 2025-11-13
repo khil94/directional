@@ -1,6 +1,11 @@
 "use server";
 
 import {
+  CoffeeConsumptionResponse,
+  TopCoffeeBrandsResponse,
+  WeeklyMoodTrendResponse,
+} from "@/types/coffee";
+import {
   CreatePostRequest,
   PostItem,
   PostsRequest,
@@ -33,5 +38,17 @@ export async function deletePost(id: string) {
 
 export async function getPosts(params: PostsRequest) {
   const searchParams = buildQuery(params);
-  return authFetcher<PostsResponse>(`posts?${searchParams}`, {});
+  return authFetcher<PostsResponse>(`posts?${searchParams}`);
+}
+
+export async function getCoffeeConsumption() {
+  return authFetcher<CoffeeConsumptionResponse>("mock/coffee-consumption");
+}
+
+export async function getWeeklyMoodTrend() {
+  return authFetcher<WeeklyMoodTrendResponse>("mock/weekly-mood-trend");
+}
+
+export async function getTopCofeeBrands() {
+  return authFetcher<TopCoffeeBrandsResponse>("mock/top-coffee-brands");
 }
