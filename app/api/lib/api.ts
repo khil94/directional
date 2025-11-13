@@ -3,6 +3,29 @@ import { NextRequest, NextResponse } from "next/server";
 
 const API_BASE_URL = process.env.API_BASE_URL;
 
+export async function CommonApi(request: NextRequest, url: string) {
+  const headers = new Headers(request.headers);
+
+  try {
+    const resp = await fetch(`${API_BASE_URL}/${url}`, {
+      method: request.method,
+      headers,
+      body: request.method !== "GET" ? request.body : null,
+    });
+
+    return resp.json();
+  } catch (err) {
+    return NextResponse.json(
+      {
+        error: `failed to calling api : ${err}`,
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
 export async function AuthApi(request: NextRequest, url: string) {
   const token = (await cookies()).get("token")?.value;
   const headers = new Headers(request.headers);
@@ -20,16 +43,11 @@ export async function AuthApi(request: NextRequest, url: string) {
       body: request.method !== "GET" ? request.body : null,
     });
 
-    if (resp.ok) {
-      return NextResponse.json(resp.body, { status: resp.status });
-    } else {
-      if (resp.status === 401) {
-        (await cookies()).delete("token");
-      }
-      return NextResponse.json(resp.body, {
-        status: resp.status,
-      });
+    if (!resp.ok && resp.status === 401) {
+      (await cookies()).delete("token");
     }
+
+    return resp.json();
   } catch (err) {
     return NextResponse.json(
       {
