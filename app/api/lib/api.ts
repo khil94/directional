@@ -1,17 +1,16 @@
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-
-const API_BASE_URL = process.env.API_BASE_URL;
 
 export async function CommonApi(
   request: NextRequest,
   url: string
 ): Promise<NextResponse> {
-  const headers = new Headers(request.headers);
+  const API_BASE_URL = (await headers()).get("host");
+  const header = new Headers(request.headers);
   try {
-    const resp = await fetch(`${API_BASE_URL}/${url}`, {
+    const resp = await fetch(API_BASE_URL + url, {
       method: request.method,
-      headers: headers,
+      headers: header,
       body: request.method !== "GET" ? request.body : null,
     });
     const data = await resp.json();
@@ -36,10 +35,11 @@ export async function AuthApi(
 ): Promise<NextResponse> {
   const cookiesStore = await cookies();
   const token = cookiesStore.get("token")?.value;
-  const headers = new Headers(request.headers);
+  const API_BASE_URL = (await headers()).get("host");
+  const header = new Headers(request.headers);
 
   if (token) {
-    headers.set("Authorization", `Bearer ${token}`);
+    header.set("Authorization", `Bearer ${token}`);
   } else {
     return NextResponse.json(
       { message: "인증 필요 (토큰 없음)" },
@@ -48,9 +48,9 @@ export async function AuthApi(
   }
 
   try {
-    const resp = await fetch(`${API_BASE_URL}/${url}`, {
+    const resp = await fetch(API_BASE_URL + url, {
       method: request.method,
-      headers: headers,
+      headers: header,
       body: request.method !== "GET" ? request.body : null,
     });
     const data = await resp.json();
