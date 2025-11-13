@@ -1,6 +1,6 @@
 "use client";
 
-import { API } from "@/app/api/apis";
+import { API } from "@/app/api/clientAPI";
 import { useAuthStore } from "@/store/auth/authStore";
 import { useUserStore } from "@/store/user/userStore";
 import { LoginBody } from "@/types/auth";
