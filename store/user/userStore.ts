@@ -1,7 +1,6 @@
 import { User } from "@/types/auth";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useAuthStore } from "../auth/authStore";
 
 export const USER_STORE_KEY = "directional-user";
 export interface UserState {
@@ -34,13 +33,4 @@ export const useUserStore = create(
       name: USER_STORE_KEY,
     }
   )
-);
-
-useAuthStore.subscribe(
-  (state) => state.isAuth,
-  (isAuth) => {
-    if (!isAuth) {
-      useUserStore.getState().logout();
-    }
-  }
 );

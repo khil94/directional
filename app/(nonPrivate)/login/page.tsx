@@ -1,7 +1,6 @@
 "use client";
 
 import { API } from "@/app/api/lib/clientAPI";
-import { useAuthStore } from "@/store/auth/authStore";
 import { useUserStore } from "@/store/user/userStore";
 import { LoginBody } from "@/types/auth";
 import { useRouter } from "next/navigation";
@@ -16,7 +15,6 @@ export default function LoginPage() {
   const router = useRouter();
 
   const userStore = useUserStore();
-  const authStore = useAuthStore();
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -30,9 +28,8 @@ export default function LoginPage() {
       const resp = await API.login(body);
       console.log(resp);
       userStore.login(resp);
-      authStore.login();
-
       router.push("/posts");
+      router.refresh();
     } catch (err) {
       setError(true);
     } finally {
