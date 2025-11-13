@@ -28,10 +28,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { orderTypeRecord, sortTypeRecord } from "@/lib/typeRecord";
 import { ChevronDown, PlusCircle, Search } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 export default function PostsPage() {
+  const router = useRouter();
   const [params, setParams] = useState<PostsRequest>({
-    limit: 11,
+    limit: 10,
     search: "",
   });
 
@@ -80,7 +82,7 @@ export default function PostsPage() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
           <h1 className="text-3xl font-bold">게시글 목록</h1>
           {/* 4. 게시글 작성 버튼 */}
-          <Button>
+          <Button onClick={() => router.push("/posts/write")}>
             <PlusCircle className="mr-2 h-4 w-4" />
             게시글 작성
           </Button>
@@ -171,7 +173,10 @@ export default function PostsPage() {
         <TableBody>
           {data?.items?.map((v) => {
             return (
-              <TableRow key={v.id}>
+              <TableRow
+                key={v.id}
+                onClick={() => router.push(`/posts/${v.id}`)}
+              >
                 <TableCell>{v.title}</TableCell>
                 <TableCell>{v.category}</TableCell>
                 <TableCell>
