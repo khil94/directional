@@ -9,14 +9,19 @@ export interface PostItem {
   tags: string[];
   createdAt: Date;
 }
-type Cursor =
+export type Cursor =
   | { nextCursor: string; prevCursor?: never }
-  | { prevCursor: string; nextCursor?: never };
+  | { prevCursor: string; nextCursor?: never }
+  | undefined;
+
+export type PostSortingType = "createdAt" | "title";
+
+export type Order = "asc" | "desc";
 
 export interface PostsRequest {
   limit?: number;
-  sort?: "createdAt" | "title";
-  order?: "asc" | "desc";
+  sort?: PostSortingType;
+  order?: Order;
   category?: Category;
   cursor?: Cursor;
   from?: string;
@@ -25,7 +30,7 @@ export interface PostsRequest {
 }
 
 export interface PostsResponse {
-  items: PostItem;
+  items: PostItem[];
   prevCursor: null | string;
   nextCursor: null | string;
 }
