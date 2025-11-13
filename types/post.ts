@@ -1,5 +1,6 @@
-export type Category = "NOTICE" | "QNA" | "FREE";
+export const CATEGORY_LIST = ["NOTICE", "QNA", "FREE"] as const;
 
+export type Category = (typeof CATEGORY_LIST)[number];
 export interface PostItem {
   id: string;
   userId: string;
@@ -14,13 +15,17 @@ export type Cursor =
   | { prevCursor: string; nextCursor?: never }
   | undefined;
 
-export type PostSortingType = "createdAt" | "title";
+export const SORTING_TYPE_LIST = ["createdAt", "title"] as const;
 
-export type Order = "asc" | "desc";
+export type SortingType = (typeof SORTING_TYPE_LIST)[number];
+
+export const ORDER_LIST = ["asc", "desc"] as const;
+
+export type Order = (typeof ORDER_LIST)[number];
 
 export interface PostsRequest {
   limit?: number;
-  sort?: PostSortingType;
+  sort?: SortingType;
   order?: Order;
   category?: Category;
   cursor?: Cursor;
