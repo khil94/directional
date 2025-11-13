@@ -10,7 +10,7 @@ export default async function PrivateRouter({
   type?: "private" | "non-private";
 }) {
   const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
+  const token = cookieStore.get("token")?.value !== undefined;
 
   switch (type) {
     case "private":
@@ -20,7 +20,7 @@ export default async function PrivateRouter({
       return <>{children}</>;
     case "non-private":
       if (token) {
-        redirect("/board");
+        redirect("/posts");
       }
       return <>{children}</>;
   }
