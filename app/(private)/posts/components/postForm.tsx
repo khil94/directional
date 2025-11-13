@@ -9,6 +9,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Textarea } from "@/components/ui/textarea";
+import { BanWordChecker } from "@/lib/banChecker";
 import { Category, CATEGORY_LIST, CreatePostRequest } from "@/types/post";
 import { ChevronDown } from "lucide-react";
 import Link from "next/link";
@@ -35,7 +36,16 @@ export default function PostForm({ mode, initialData }: props) {
   );
   const router = useRouter();
 
+  function checker() {
+    const tagCheck = tags.every((v) => BanWordChecker(v));
+    return BanWordChecker(title) || BanWordChecker(body) || tagCheck;
+  }
+
   async function handleEdit() {
+    if (checker()) {
+      alert("금칙어가 들어있습니다.");
+      return;
+    }
     const answer = confirm("수정하시겠습니까");
     if (answer) {
       console.log("test", mode?.id);
@@ -50,6 +60,10 @@ export default function PostForm({ mode, initialData }: props) {
   }
 
   async function handleWrite() {
+    if (checker()) {
+      alert("금칙어가 들어있습니다.");
+      return;
+    }
     const answer = confirm("작성하시겠습니까?");
     if (answer) {
       await createPost({
