@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import { fetcher } from "./fetcher";
 
 export async function getTokenHeader<T>(): Promise<Record<string, string>> {
@@ -25,11 +26,18 @@ export async function authFetcher<T>(
     headers: {
       ...(init?.headers || {}),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      "Content-Type": "application/json",
     },
     cache: "no-store",
   });
 
-  if (!res.ok) throw new Error("server fetcher error");
+  if (!res.ok) {
+    if (res.status === 404) {
+      notFound();
+    }
+    console.log(res);
+    throw new Error("server fetcher error");
+  }
 
   return res.json();
 }

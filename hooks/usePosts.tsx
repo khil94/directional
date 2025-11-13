@@ -1,4 +1,4 @@
-import { API } from "@/app/api/clientAPI";
+import { API } from "@/app/api/lib/clientAPI";
 import { Cursor, PostsRequest, PostsResponse } from "@/types/post";
 import { useQuery } from "@tanstack/react-query";
 
