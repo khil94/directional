@@ -3,6 +3,7 @@ import {
   getTopCofeeBrands,
   getWeeklyMoodTrend,
 } from "../api/lib/serverAPI";
+import StackedAreaChart from "./components/areaChart";
 import MultiLineChart from "./components/multiLineChart";
 import StackChart from "./components/stackChart";
 
@@ -16,6 +17,7 @@ export default async function ChartsPage() {
   return (
     <div className="w-full min-h-screen">
       <StackChart target={WMT} />
+      <StackedAreaChart target={WMT} />
       <MultiLineChart target={CC} />
     </div>
   );
