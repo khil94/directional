@@ -1,4 +1,4 @@
-import { LoginBody, LoginResp } from "@/app/types/auth";
+import { LoginBody, LoginResp } from "@/types/auth";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 import { fetcher } from "../lib/fetcher";

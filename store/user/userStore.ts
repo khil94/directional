@@ -1,4 +1,4 @@
-import { User } from "@/app/types/auth";
+import { User } from "@/types/auth";
 import { create } from "zustand";
 import { useAuthStore } from "../auth/authStore";
 
