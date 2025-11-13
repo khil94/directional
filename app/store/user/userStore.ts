@@ -1,28 +1,37 @@
+import { User } from "@/app/types/auth";
 import { create } from "zustand";
-
-export const USER_STORE_KEY = "directional-user-data";
+import { useAuthStore } from "../auth/authStore";
 
 export interface UserState {
-  isLoggedIn: boolean;
+  user: User | null;
 }
 
 interface UserAction {
-  login: () => void;
+  login: (data: User) => void;
   logout: () => void;
 }
 
 export type UserStoreState = UserAction & UserState;
 
 const initState: UserState = {
-  isLoggedIn: false,
+  user: null,
 };
 
 export const useUserStore = create<UserStoreState>((set, get) => ({
   ...initState,
-  login: () => {
-    set({ isLoggedIn: true });
+  login: (data) => {
+    set({ user: data });
   },
   logout: () => {
-    set({ isLoggedIn: false });
+    set({ user: null });
   },
 }));
+
+useAuthStore.subscribe(
+  (state) => state.isAuth,
+  (isAuth) => {
+    if (!isAuth) {
+      useUserStore.getState().logout();
+    }
+  }
+);
