@@ -61,3 +61,5 @@
 - Y축: `popularity`
 
 # 배포 링크
+
+[Vercel](https://directional-alpha.vercel.app/)
