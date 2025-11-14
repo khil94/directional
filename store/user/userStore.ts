@@ -1,7 +1,7 @@
+import { API } from "@/app/api/lib/clientAPI";
 import { User } from "@/types/auth";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useAuthStore } from "../auth/authStore";
 
 export const USER_STORE_KEY = "directional-user";
 export interface UserState {
@@ -10,7 +10,7 @@ export interface UserState {
 
 interface UserAction {
   login: (data: User) => void;
-  logout: () => void;
+  logout: () => Promise<void>;
 }
 
 export type UserStoreState = UserAction & UserState;
@@ -26,7 +26,8 @@ export const useUserStore = create(
       login: (data) => {
         set({ user: data });
       },
-      logout: () => {
+      logout: async () => {
+        await API.postLogout();
         set({ user: null });
       },
     }),
@@ -34,13 +35,4 @@ export const useUserStore = create(
       name: USER_STORE_KEY,
     }
   )
-);
-
-useAuthStore.subscribe(
-  (state) => state.isAuth,
-  (isAuth) => {
-    if (!isAuth) {
-      useUserStore.getState().logout();
-    }
-  }
 );

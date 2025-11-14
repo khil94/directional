@@ -18,7 +18,6 @@ export async function getPostDetail(id: string) {
   return authFetcher<PostItem>(`posts/${id}`);
 }
 export async function patchPost(id: string, data: CreatePostRequest) {
-  console.log("inside fetcher", data);
   return authFetcher<PostItem>(`posts/${id}`, {
     method: "PATCH",
     body: JSON.stringify(data),

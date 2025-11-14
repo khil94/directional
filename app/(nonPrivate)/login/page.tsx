@@ -1,13 +1,13 @@
 "use client";
 
 import { API } from "@/app/api/lib/clientAPI";
-import { useAuthStore } from "@/store/auth/authStore";
 import { useUserStore } from "@/store/user/userStore";
 import { LoginBody } from "@/types/auth";
-import { useRouter } from "next/navigation";
-import { FormEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { FormEvent, useEffect, useState } from "react";
 
 export default function LoginPage() {
+  const reason = useSearchParams().get("from");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -15,8 +15,15 @@ export default function LoginPage() {
 
   const router = useRouter();
 
-  const userStore = useUserStore();
-  const authStore = useAuthStore();
+  const { login, logout } = useUserStore();
+
+  useEffect(() => {
+    if (reason === "logout") {
+      (async () => {
+        await logout();
+      })();
+    }
+  }, [reason]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -28,11 +35,9 @@ export default function LoginPage() {
     };
     try {
       const resp = await API.login(body);
-      console.log(resp);
-      userStore.login(resp);
-      authStore.login();
-
+      login(resp);
       router.push("/posts");
+      router.refresh();
     } catch (err) {
       setError(true);
     } finally {

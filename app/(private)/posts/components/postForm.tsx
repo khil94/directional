@@ -38,8 +38,7 @@ export default function PostForm({ mode, initialData }: props) {
   const router = useRouter();
 
   function checker() {
-    const tagCheck = tags.every((v) => BanWordChecker(v));
-    return BanWordChecker(title) || BanWordChecker(body) || tagCheck;
+    return BanWordChecker(body);
   }
 
   async function handleEdit() {
@@ -49,7 +48,6 @@ export default function PostForm({ mode, initialData }: props) {
     }
     const answer = confirm("수정하시겠습니까");
     if (answer) {
-      console.log("test", mode?.id);
       await update.mutateAsync({
         title,
         body,
@@ -61,7 +59,8 @@ export default function PostForm({ mode, initialData }: props) {
   }
 
   async function handleWrite() {
-    if (checker()) {
+    const check = checker();
+    if (check) {
       alert("금칙어가 들어있습니다.");
       return;
     }

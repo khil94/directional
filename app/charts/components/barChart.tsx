@@ -1,12 +1,13 @@
 "use client";
 
-import { WeeklyMoodTrendResponse } from "@/types/coffee";
+import { dynamicColors } from "@/lib/utils";
+import { TopCoffeeBrandsResponse } from "@/types/coffee";
 import {
   Bar,
   BarChart,
   CartesianGrid,
+  Cell,
   Label,
-  Legend,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -14,10 +15,10 @@ import {
 } from "recharts";
 
 interface props {
-  target: WeeklyMoodTrendResponse;
+  target: TopCoffeeBrandsResponse;
 }
 
-export default function StackChart({ target }: props) {
+export default function TopCoffeBarChart({ target }: props) {
   return (
     <ResponsiveContainer width={"100%"} height={400}>
       <BarChart
@@ -31,15 +32,16 @@ export default function StackChart({ target }: props) {
         data={target}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="week" />
+        <XAxis dataKey="brand" />
         <YAxis width="auto">
-          <Label value="%" position="bottom" offset={10} />
+          <Label value="인기" position="bottom" offset={10} />
         </YAxis>
         <Tooltip />
-        <Legend />
-        <Bar dataKey="happy" stackId="a" fill="#F5DD27" background />
-        <Bar dataKey="tired" stackId="a" fill="#8884d8" background />
-        <Bar dataKey="stressed" stackId="a" fill="#F54927" background />
+        <Bar dataKey="popularity" stackId="a" background>
+          {target.map((v, i) => {
+            return <Cell key={v.brand} fill={dynamicColors()} />;
+          })}
+        </Bar>
       </BarChart>
     </ResponsiveContainer>
   );

@@ -18,6 +18,20 @@ interface props {
   target: CoffeeConsumptionResponse;
 }
 
+const SquareDot = (props: any) => {
+  const { cx, cy, fill, stroke } = props;
+  return (
+    <rect
+      x={cx - 5}
+      y={cy - 5}
+      width={10}
+      height={10}
+      fill={fill}
+      stroke={stroke}
+    />
+  );
+};
+
 export default function MultiLineChart({ target }: props) {
   const { teams } = target;
   const teamColor: Record<string, string> = {};
@@ -25,29 +39,9 @@ export default function MultiLineChart({ target }: props) {
     teamColor[v.team] = dynamicColors();
   });
 
-  const SquareDot = (props: any) => {
-    const { cx, cy, fill, stroke } = props;
-    return (
-      <rect
-        x={cx - 5}
-        y={cy - 5}
-        width={10}
-        height={10}
-        fill={fill}
-        stroke={stroke}
-      />
-    );
-  };
-
   return (
-    <ResponsiveContainer width={800} height={400}>
+    <ResponsiveContainer width={"100%"} height={400}>
       <LineChart
-        style={{
-          width: "100%",
-          maxWidth: "1000px",
-          maxHeight: "70vh",
-          aspectRatio: 1.618,
-        }}
         responsive
         margin={{
           top: 15,
@@ -57,7 +51,9 @@ export default function MultiLineChart({ target }: props) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="cups" allowDuplicatedCategory={false} />
+        <XAxis dataKey="cups" allowDuplicatedCategory={false}>
+          <Label value="커피 섭취량(잔/일)" position="bottom" offset={10} />
+        </XAxis>
         <YAxis yAxisId="left" dataKey="bugs" width="auto">
           <Label value="버그" position="left" offset={20} />
         </YAxis>
@@ -70,10 +66,16 @@ export default function MultiLineChart({ target }: props) {
           <Label value="생산성" position="right" offset={10} />
         </YAxis>
         <Tooltip labelFormatter={(v) => `커피 잔수: ${v}`} />
-        <Legend width={1000} />
+        <Legend
+          align="center"
+          wrapperStyle={{
+            paddingTop: "40px",
+            width: "100%",
+          }}
+        />
         {target.teams.map((v) => {
           return (
-            <>
+            <div key={`${v.team}-wrapper`}>
               <Line
                 yAxisId="left"
                 type="monotone"
@@ -82,6 +84,7 @@ export default function MultiLineChart({ target }: props) {
                 name={`${v.team}-버그`}
                 key={`${v.team}-버그`}
                 stroke={teamColor[v.team]}
+                legendType="circle"
                 activeDot={{ r: 8 }}
               />
               <Line
@@ -93,9 +96,10 @@ export default function MultiLineChart({ target }: props) {
                 name={`${v.team}-생산성`}
                 key={`${v.team}-생산성`}
                 strokeDasharray="5 5"
+                legendType="square"
                 dot={<SquareDot />}
               />
-            </>
+            </div>
           );
         })}
       </LineChart>

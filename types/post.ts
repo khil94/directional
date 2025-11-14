@@ -13,7 +13,7 @@ export interface PostItem {
 export type Cursor =
   | { nextCursor: string; prevCursor?: never }
   | { prevCursor: string; nextCursor?: never }
-  | undefined;
+  | { prevCursor?: undefined; nextCursor?: undefined };
 
 export const SORTING_TYPE_LIST = ["createdAt", "title"] as const;
 
@@ -23,16 +23,17 @@ export const ORDER_LIST = ["asc", "desc"] as const;
 
 export type Order = (typeof ORDER_LIST)[number];
 
-export interface PostsRequest {
+export interface PostsRequestCommon {
   limit?: number;
   sort?: SortingType;
   order?: Order;
   category?: Category;
-  cursor?: Cursor;
   from?: string;
   to?: string;
   search?: string;
 }
+
+export type PostsRequest = PostsRequestCommon & Cursor;
 
 export interface PostsResponse {
   items: PostItem[];
