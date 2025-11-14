@@ -68,6 +68,14 @@ export default function FilterSection({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="z-9999">
+            <DropdownMenuItem
+              className=""
+              onClick={() => {
+                updateFilter({ category: undefined });
+              }}
+            >
+              전체보기
+            </DropdownMenuItem>
             {CATEGORY_LIST.map((v) => {
               return (
                 <DropdownMenuItem
@@ -94,6 +102,16 @@ export default function FilterSection({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="z-10">
+            <DropdownMenuItem
+              onClick={() => {
+                updateFilter({
+                  sort: undefined,
+                  order: undefined,
+                });
+              }}
+            >
+              기본
+            </DropdownMenuItem>
             {SORTING_TYPE_LIST.map((v) => {
               return ORDER_LIST.map((t) => {
                 return (
