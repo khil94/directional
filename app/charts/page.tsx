@@ -1,11 +1,18 @@
 import TabLayout from "@/layout/tabLayout";
-import { AreaChart, ChartColumnBig, Donut, LineChart } from "lucide-react";
+import {
+  AreaChart,
+  BarChart,
+  ChartColumnBig,
+  Donut,
+  LineChart,
+} from "lucide-react";
 import {
   getCoffeeConsumption,
   getTopCofeeBrands,
   getWeeklyMoodTrend,
 } from "../api/lib/serverAPI";
 import StackedAreaChart from "./components/areaChart";
+import TopCoffeBarChart from "./components/barChart";
 import TopCoffeDonutChart from "./components/donutChart";
 import MultiLineChart from "./components/multiLineChart";
 import StackChart from "./components/stackChart";
@@ -41,6 +48,11 @@ export default async function ChartsPage() {
               name: "최고의 커피 브랜드(도넛)",
               content: <TopCoffeDonutChart target={TCB} />,
               icon: Donut,
+            },
+            {
+              name: "최고의 커피 브랜드(바)",
+              content: <TopCoffeBarChart target={TCB} />,
+              icon: BarChart,
             },
           ]}
         />
