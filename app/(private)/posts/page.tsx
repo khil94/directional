@@ -11,7 +11,6 @@ import {
 import { usePosts } from "@/hooks/usePosts";
 import {
   CATEGORY_LIST,
-  Cursor,
   ORDER_LIST,
   PostsRequest,
   SORTING_TYPE_LIST,
@@ -37,28 +36,29 @@ export default function PostsPage() {
     search: "",
   });
 
-  const [cursor, setCursor] = useState<Cursor>(undefined);
   const [searchVal, setSearchVal] = useState("");
 
-  const { isLoading, isError, data } = usePosts(params, cursor);
+  const { isLoading, isError, data } = usePosts(params);
 
   function goNext(cursor: string) {
-    setCursor({
+    setParams((prev) => ({
+      ...prev,
       nextCursor: cursor,
       prevCursor: undefined,
-    });
+    }));
   }
 
   function goPrev(cursor: string) {
-    setCursor({
+    setParams((prev) => ({
+      ...prev,
       prevCursor: cursor,
       nextCursor: undefined,
-    });
+    }));
   }
 
-  function resetCursor() {
-    setCursor(undefined);
-  }
+  // function resetCursor() {
+  //   setCursor(undefined);
+  // }
 
   function updateFilter(val: Partial<PostsRequest>) {
     setParams((prev) => ({
@@ -67,7 +67,7 @@ export default function PostsPage() {
       nextCursor: undefined,
       prevCursor: undefined,
     }));
-    resetCursor();
+    // resetCursor();
   }
 
   function handleSearch() {
@@ -198,18 +198,18 @@ export default function PostsPage() {
         {/* 3. 페이지네이션 */}
         <Button
           onClick={() => {
-            goPrev(cursor!.prevCursor!);
+            goPrev(data!.prevCursor!);
           }}
-          disabled={cursor?.prevCursor === undefined}
+          disabled={!data?.prevCursor}
           variant="outline"
         >
           이전
         </Button>
         <Button
           onClick={() => {
-            goNext(cursor!.nextCursor!);
+            goNext(data!.nextCursor!);
           }}
-          disabled={cursor?.nextCursor === undefined}
+          disabled={!data?.nextCursor}
           variant="outline"
         >
           다음
