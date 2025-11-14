@@ -90,6 +90,7 @@ export default function MultiLineChart({ target }: props) {
                 name={`${v.team}-버그`}
                 key={`${v.team}-버그`}
                 stroke={teamColor[v.team]}
+                legendType="circle"
                 activeDot={{ r: 8 }}
               />
               <Line
@@ -101,6 +102,7 @@ export default function MultiLineChart({ target }: props) {
                 name={`${v.team}-생산성`}
                 key={`${v.team}-생산성`}
                 strokeDasharray="5 5"
+                legendType="square"
                 dot={<SquareDot />}
               />
             </div>
