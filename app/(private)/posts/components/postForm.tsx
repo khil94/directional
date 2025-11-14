@@ -48,7 +48,6 @@ export default function PostForm({ mode, initialData }: props) {
     }
     const answer = confirm("수정하시겠습니까");
     if (answer) {
-      console.log("test", mode?.id);
       await update.mutateAsync({
         title,
         body,
@@ -61,7 +60,6 @@ export default function PostForm({ mode, initialData }: props) {
 
   async function handleWrite() {
     const check = checker();
-    console.log("inside handler", check, checker());
     if (check) {
       alert("금칙어가 들어있습니다.");
       return;

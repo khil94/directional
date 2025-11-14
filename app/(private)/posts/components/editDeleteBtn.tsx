@@ -12,7 +12,6 @@ export default function EditDeleteButton({ id }: { id: string }) {
   async function deleteHandler() {
     const answer = confirm("진짜 삭제함?");
     if (answer) {
-      console.log("on delete clicked");
       await remove.mutateAsync();
       router.replace("/posts");
     }

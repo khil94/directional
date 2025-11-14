@@ -35,7 +35,6 @@ export async function authFetcher<T>(
     if (res.status === 404) {
       notFound();
     }
-    console.log(res);
     throw new Error("server fetcher error");
   }
 

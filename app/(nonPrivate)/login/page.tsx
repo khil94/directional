@@ -26,7 +26,6 @@ export default function LoginPage() {
     };
     try {
       const resp = await API.login(body);
-      console.log(resp);
       userStore.login(resp);
       router.push("/posts");
       router.refresh();
