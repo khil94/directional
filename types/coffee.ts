@@ -23,6 +23,7 @@ export interface WeeklyMoodItem {
 export type WeeklyMoodTrendResponse = WeeklyMoodItem[];
 
 export interface TopCoffeeBrandItem {
+  [key: string]: string | number;
   brand: string;
   popularity: number;
 }
