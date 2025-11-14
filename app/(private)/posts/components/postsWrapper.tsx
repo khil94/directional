@@ -65,7 +65,10 @@ export default function PostsWrapper() {
         ) : isFetching ? (
           <div className="absolute inset-0 bg-white/40 pointer-events-none" />
         ) : (
-          <PostsSection data={data!} />
+          <PostsSection
+            onClick={(id) => router.push(`/posts/${id}`)}
+            data={data!}
+          />
         )}
       </section>
       <div className="flex justify-center items-center gap-4 mt-8">

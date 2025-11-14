@@ -7,13 +7,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { PostsResponse } from "@/types/post";
-import router from "next/router";
 
 interface props {
   data: PostsResponse;
+  onClick: (v: string) => void;
 }
 
-export default function PostsSection({ data }: props) {
+export default function PostsSection({ data, onClick }: props) {
   return (
     <Table>
       <TableHeader>
@@ -29,7 +29,7 @@ export default function PostsSection({ data }: props) {
       <TableBody>
         {data.items.map((v) => {
           return (
-            <TableRow key={v.id} onClick={() => router.push(`/posts/${v.id}`)}>
+            <TableRow key={v.id} onClick={() => onClick(v.id)}>
               <TableCell>{v.title}</TableCell>
               <TableCell>{v.category}</TableCell>
               <TableCell>
