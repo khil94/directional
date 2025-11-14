@@ -40,11 +40,11 @@ export default function MultiLineChart({ target }: props) {
   };
 
   return (
-    <ResponsiveContainer width={800} height={400}>
+    <ResponsiveContainer width={700} height={400}>
       <LineChart
         style={{
           width: "100%",
-          maxWidth: "1000px",
+          minWidth: "700px",
           maxHeight: "70vh",
           aspectRatio: 1.618,
         }}
@@ -57,7 +57,9 @@ export default function MultiLineChart({ target }: props) {
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="cups" allowDuplicatedCategory={false} />
+        <XAxis dataKey="cups" allowDuplicatedCategory={false}>
+          <Label value="커피 섭취량(잔/일)" position="bottom" offset={10} />
+        </XAxis>
         <YAxis yAxisId="left" dataKey="bugs" width="auto">
           <Label value="버그" position="left" offset={20} />
         </YAxis>
@@ -70,10 +72,16 @@ export default function MultiLineChart({ target }: props) {
           <Label value="생산성" position="right" offset={10} />
         </YAxis>
         <Tooltip labelFormatter={(v) => `커피 잔수: ${v}`} />
-        <Legend width={1000} />
+        <Legend
+          align="center"
+          wrapperStyle={{
+            paddingTop: "40px",
+            width: "100%",
+          }}
+        />
         {target.teams.map((v) => {
           return (
-            <>
+            <div key={`${v.team}-wrapper`}>
               <Line
                 yAxisId="left"
                 type="monotone"
@@ -95,7 +103,7 @@ export default function MultiLineChart({ target }: props) {
                 strokeDasharray="5 5"
                 dot={<SquareDot />}
               />
-            </>
+            </div>
           );
         })}
       </LineChart>

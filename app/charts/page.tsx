@@ -1,3 +1,5 @@
+import TabLayout from "@/layout/tabLayout";
+import { AreaChart, ChartColumnBig, LineChart } from "lucide-react";
 import {
   getCoffeeConsumption,
   getTopCofeeBrands,
@@ -15,10 +17,28 @@ export default async function ChartsPage() {
   ]);
 
   return (
-    <div className="w-full min-h-screen">
-      <StackChart target={WMT} />
-      <StackedAreaChart target={WMT} />
-      <MultiLineChart target={CC} />
+    <div className="-mt-20 w-full min-h-svh content-center">
+      <div className="max-w-4xl mx-auto ">
+        <TabLayout
+          tabList={[
+            {
+              name: "주간 기분 트렌드(스택)",
+              content: <StackChart target={WMT} />,
+              icon: ChartColumnBig,
+            },
+            {
+              name: "주간 기분 트렌드(영역)",
+              content: <StackedAreaChart target={WMT} />,
+              icon: AreaChart,
+            },
+            {
+              name: "커피당 생산성/버그(스택)",
+              content: <MultiLineChart target={CC} />,
+              icon: LineChart,
+            },
+          ]}
+        />
+      </div>
     </div>
   );
 }

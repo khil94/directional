@@ -15,11 +15,11 @@ interface props {
 export default function TabLayout({ tabList }: props) {
   return (
     <Tabs defaultValue={tabList[0].name}>
-      <TabsList className="w-full bg-primary-container rounded-2xl">
+      <TabsList className="w-full rounded-2xl ">
         {tabList.map((v, idx) => {
           return (
             <TabsTrigger
-              className="active:bg-accent-primary md:hover:bg-secondary-container active:text-on-accent-primary rounded-2xl data-[state=active]:text-on-accent-primary data-[state=active]:bg-accent-primary "
+              className="rounded-2xl hover:bg-background/70"
               key={v.name + idx}
               value={v.name}
             >
@@ -31,7 +31,11 @@ export default function TabLayout({ tabList }: props) {
       </TabsList>
       {tabList.map((v, idx) => {
         return (
-          <TabsContent className="mt-8" key={v.name + idx} value={v.name}>
+          <TabsContent
+            className="mt-8 w-full flex justify-center items-center"
+            key={v.name + idx}
+            value={v.name}
+          >
             {v.content}
           </TabsContent>
         );
