@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { fetcher } from "./fetcher";
 
 export async function getTokenHeader<T>(): Promise<Record<string, string>> {
@@ -34,6 +34,10 @@ export async function authFetcher<T>(
   if (!res.ok) {
     if (res.status === 404) {
       notFound();
+    }
+    if (res.status === 401) {
+      // token error
+      redirect("/login?from=logout");
     }
     throw new Error("server fetcher error");
   }
