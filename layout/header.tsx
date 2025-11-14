@@ -1,7 +1,7 @@
 import { isAuth } from "@/lib/isAuth";
-import { ChartArea, Notebook, User } from "lucide-react";
+import { ChartArea, Notebook } from "lucide-react";
 import Link from "next/link";
-import { default as LogoutBtn } from "./logoutBtn";
+import { default as LogoutBtn } from "./AuthBtn";
 
 export default async function Header() {
   const auth = await isAuth();
@@ -20,13 +20,7 @@ export default async function Header() {
             </Link>
           </li>
           <li className="">
-            {auth ? (
-              <LogoutBtn />
-            ) : (
-              <Link href={"/posts"} className="flex flex-row items-center">
-                <User /> 로그인
-              </Link>
-            )}
+            <LogoutBtn auth={auth} />
           </li>
         </ul>
       </nav>

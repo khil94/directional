@@ -1,20 +1,31 @@
 "use client";
 
-import { API } from "@/app/api/lib/clientAPI";
 import { Button } from "@/components/ui/button";
 import { useUserStore } from "@/store/user/userStore";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 
-export default function LogoutBtn() {
+interface props {
+  auth: boolean;
+}
+
+export default function AuthBtn({ auth }: props) {
   const userStore = useUserStore();
   const router = useRouter();
 
   async function handleLogout() {
-    userStore.logout();
-    await API.postLogout();
+    await userStore.logout();
     router.replace("/login");
     router.refresh();
+  }
+
+  if (!auth || !userStore.user) {
+    return (
+      <Link href={"/posts"} className="flex flex-row items-center">
+        <User /> 로그인
+      </Link>
+    );
   }
 
   return (
