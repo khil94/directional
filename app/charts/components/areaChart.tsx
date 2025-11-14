@@ -19,14 +19,8 @@ interface props {
 
 export default function StackedAreaChart({ target }: props) {
   return (
-    <ResponsiveContainer width={700} height={400}>
+    <ResponsiveContainer width={"100%"} height={400}>
       <AreaChart
-        style={{
-          width: "100%",
-          maxWidth: "700px",
-          maxHeight: "70vh",
-          aspectRatio: 1.618,
-        }}
         responsive
         margin={{
           top: 20,
@@ -37,7 +31,7 @@ export default function StackedAreaChart({ target }: props) {
         data={target}
       >
         <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="week" />
+        <XAxis fontSize={"10px"} dataKey="week" />
         <YAxis width="auto">
           <Label value="%" position="bottom" offset={10} />
         </YAxis>

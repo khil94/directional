@@ -26,7 +26,7 @@ export default async function ChartsPage() {
 
   return (
     <div className="-mt-20 w-full min-h-svh content-center">
-      <div className="max-w-4xl mx-auto ">
+      <div className="max-w-5xl mx-auto ">
         <TabLayout
           tabList={[
             {

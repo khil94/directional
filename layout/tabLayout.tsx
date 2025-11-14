@@ -15,7 +15,7 @@ interface props {
 export default function TabLayout({ tabList }: props) {
   return (
     <Tabs defaultValue={tabList[0].name}>
-      <TabsList className="w-full rounded-2xl ">
+      <TabsList className="w-full rounded-2xl overflow-auto">
         {tabList.map((v, idx) => {
           return (
             <TabsTrigger
@@ -32,7 +32,7 @@ export default function TabLayout({ tabList }: props) {
       {tabList.map((v, idx) => {
         return (
           <TabsContent
-            className="mt-8 w-full flex justify-center items-center"
+            className="mt-8 px-2 w-full flex justify-center items-center"
             key={v.name + idx}
             value={v.name}
           >

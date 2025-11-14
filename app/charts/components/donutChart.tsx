@@ -49,14 +49,8 @@ const renderCustomizedLabel = ({
 export default function TopCoffeDonutChart({ target }: props) {
   const data = target.map((v) => ({ ...v, fill: dynamicColors() }));
   return (
-    <ResponsiveContainer width={700} height={400}>
+    <ResponsiveContainer width={"100%"} height={400}>
       <PieChart
-        style={{
-          width: "100%",
-          maxWidth: "700px",
-          maxHeight: "70vh",
-          aspectRatio: 1.618,
-        }}
         responsive
         margin={{
           top: 20,

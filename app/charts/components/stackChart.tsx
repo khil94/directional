@@ -19,14 +19,8 @@ interface props {
 
 export default function StackChart({ target }: props) {
   return (
-    <ResponsiveContainer width={700} height={400}>
+    <ResponsiveContainer width={"100%"} height={400}>
       <BarChart
-        style={{
-          width: "100%",
-          maxWidth: "700px",
-          maxHeight: "70vh",
-          aspectRatio: 1.618,
-        }}
         responsive
         margin={{
           top: 20,

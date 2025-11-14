@@ -18,6 +18,20 @@ interface props {
   target: CoffeeConsumptionResponse;
 }
 
+const SquareDot = (props: any) => {
+  const { cx, cy, fill, stroke } = props;
+  return (
+    <rect
+      x={cx - 5}
+      y={cy - 5}
+      width={10}
+      height={10}
+      fill={fill}
+      stroke={stroke}
+    />
+  );
+};
+
 export default function MultiLineChart({ target }: props) {
   const { teams } = target;
   const teamColor: Record<string, string> = {};
@@ -25,29 +39,9 @@ export default function MultiLineChart({ target }: props) {
     teamColor[v.team] = dynamicColors();
   });
 
-  const SquareDot = (props: any) => {
-    const { cx, cy, fill, stroke } = props;
-    return (
-      <rect
-        x={cx - 5}
-        y={cy - 5}
-        width={10}
-        height={10}
-        fill={fill}
-        stroke={stroke}
-      />
-    );
-  };
-
   return (
-    <ResponsiveContainer width={700} height={400}>
+    <ResponsiveContainer width={"100%"} height={400}>
       <LineChart
-        style={{
-          width: "100%",
-          minWidth: "700px",
-          maxHeight: "70vh",
-          aspectRatio: 1.618,
-        }}
         responsive
         margin={{
           top: 15,
