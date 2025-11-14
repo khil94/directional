@@ -1,9 +1,17 @@
 # 프로젝트 실행 방법
 
+.env파일 생성
+```
+API_BASE_URL = BASE URL을 적어주세요
+```
+
 ```bash
   npm install
   npm run dev
 ```
+
+
+
 
 # 사용한 기술 스택
 
